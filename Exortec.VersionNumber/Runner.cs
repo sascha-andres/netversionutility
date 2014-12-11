@@ -28,11 +28,11 @@ namespace Exortec.VersionNumber {
     }
 
     #region console write helper
-    private void writeLine( string lineToWrite ) {
+    internal static void writeLine( string lineToWrite ) {
       Console.WriteLine( lineToWrite );
     }
 
-    private void writeError( string lineToWrite ) {
+    internal static void writeError( string lineToWrite ) {
       var foregroundColor = Console.ForegroundColor;
       var backgroundColor = Console.BackgroundColor;
       Console.ForegroundColor = ConsoleColor.Red;
@@ -52,9 +52,11 @@ namespace Exortec.VersionNumber {
             return folderIterator.Execute();
           }
         } else {
+          writeError( "Folder provided does not exist" );
           return ERROR_NO_FOLDER;
         }
       } else {
+        writeError( "Options could not be parsed" );
         return Parser.DefaultExitCodeFail;
       }
     }

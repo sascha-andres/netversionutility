@@ -23,6 +23,7 @@ namespace Exortec.VersionNumber {
                 var major = match.Groups["major"].Value;
                 var minor = match.Groups["minor"].Value;
                 line = string.Format( @"[assembly: AssemblyFileVersion( ""{0}.{1}.{2}.{3}"" )]", major, minor, DateTime.Now.Year, string.Format( "{0}{1}", DateTime.Now.Month, DateTime.Now.Day ) );
+                Runner.writeLine( String.Format( "Setting: {0}", line ) );
                 contentNeedsToBeWritten = true;
               }
             } else if ( _Options.AssemblyVersion && _AssemblyVersion.IsMatch( line.Trim() ) ) {
@@ -31,6 +32,7 @@ namespace Exortec.VersionNumber {
                 var major = match.Groups["major"].Value;
                 var minor = match.Groups["minor"].Value;
                 line = string.Format( @"[assembly: AssemblyVersion( ""{0}.{1}.{2}.{3}"" )]", major, minor, DateTime.Now.Year, string.Format( "{0}{1}", DateTime.Now.Month, DateTime.Now.Day ) );
+                Runner.writeLine( String.Format( "Setting: {0}", line ) );
                 contentNeedsToBeWritten = true;
               }
             }
@@ -39,6 +41,7 @@ namespace Exortec.VersionNumber {
         }
       }
       if ( contentNeedsToBeWritten ) {
+        Runner.writeLine( "Writing file" );
         System.IO.File.WriteAllText( _File, contentBuilder.ToString() );
       }
       return Runner.SUCCESS_EXECUTION;
