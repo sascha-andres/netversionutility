@@ -44,9 +44,11 @@ namespace Exortec.VersionNumber {
     #endregion
 
     public int Execute() {
-      var header = string.Format( "versioning compiled on {0}", VersionHelper.GetBuildDateTime() );
-      writeLine( header );
       if ( validate() ) {
+        if ( !_Options.Quiet ) {
+          var header = string.Format( "versioning compiled on {0}", VersionHelper.GetBuildDateTime() );
+          writeLine( header );
+        }
         if ( Directory.Exists( _Options.Folder ) ) {
           using ( var folderIterator = new FolderIterator( _Options ) ) {
             return folderIterator.Execute();

@@ -26,14 +26,17 @@ namespace Exortec.VersionNumber {
         return Runner.ERROR_NO_FOLDER_PROVIDED;
       }
       foreach ( var directory in System.IO.Directory.GetDirectories( _Folder ) ) {
-        Runner.writeLine( String.Format( "Working on directory {0}", directory ) );
+        if ( _Options.Verbose ) {
+          Runner.writeLine( String.Format( "Working on directory {0}", directory ) );
+        }
         using ( var folderIterator = new FolderIterator( _Options, directory ) ) {
           var result = folderIterator.Execute();
           if ( result != Runner.SUCCESS_EXECUTION ) return result;
         }
       }
       foreach ( var file in System.IO.Directory.GetFiles( _Folder, "AssemblyInfo.cs" ) ) {
-        Runner.writeLine( String.Format( "Working on {0}", file ) );
+        if ( !_Options.Quiet )
+          Runner.writeLine( String.Format( "Working on {0}", file ) );
         using ( var fileHandler = new FileHandler( _Options, file ) ) {
           var result = fileHandler.Execute();
           if ( result != Runner.SUCCESS_EXECUTION ) return result;

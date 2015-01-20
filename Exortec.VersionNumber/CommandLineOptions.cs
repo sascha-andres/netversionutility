@@ -19,6 +19,10 @@ namespace Exortec.VersionNumber {
     public bool AssemblyVersion { get; set; }
     [Option( 'f', "folder", Required = true, HelpText = "Look here (recursivly) for AssemblyInfo.cs" )]
     public string Folder { get; set; }
+    [Option( 'v', "verbose", DefaultValue = false, HelpText = "Print out debug info" )]
+    public bool Verbose { get; set; }
+    [Option( 'q', "quiet", DefaultValue = false, HelpText = "Be extra quiet" )]
+    public bool Quiet { get; set; }
     [HelpOption]
     public string GetUsage() {
       return HelpText.AutoBuild( this,
