@@ -28,11 +28,11 @@ namespace Exortec.VersionNumber {
     }
 
     #region console write helper
-    private void writeLine( string lineToWrite ) {
+    internal static void writeLine( string lineToWrite ) {
       Console.WriteLine( lineToWrite );
     }
 
-    private void writeError( string lineToWrite ) {
+    internal static void writeError( string lineToWrite ) {
       var foregroundColor = Console.ForegroundColor;
       var backgroundColor = Console.BackgroundColor;
       Console.ForegroundColor = ConsoleColor.Red;
@@ -44,17 +44,21 @@ namespace Exortec.VersionNumber {
     #endregion
 
     public int Execute() {
-      var header = string.Format( "versioning compiled on {0}", VersionHelper.GetBuildDateTime() );
-      writeLine( header );
       if ( validate() ) {
+        if ( !_Options.Quiet ) {
+          var header = string.Format( "versioning compiled on {0}", VersionHelper.GetBuildDateTime() );
+          writeLine( header );
+        }
         if ( Directory.Exists( _Options.Folder ) ) {
           using ( var folderIterator = new FolderIterator( _Options ) ) {
             return folderIterator.Execute();
           }
         } else {
+          writeError( "Folder provided does not exist" );
           return ERROR_NO_FOLDER;
         }
       } else {
+        writeError( "Options could not be parsed" );
         return Parser.DefaultExitCodeFail;
       }
     }

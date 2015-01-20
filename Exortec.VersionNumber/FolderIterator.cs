@@ -21,14 +21,22 @@ namespace Exortec.VersionNumber {
     }
 
     public int Execute() {
-      if ( string.IsNullOrWhiteSpace( _Options.Folder ) ) return Runner.ERROR_NO_FOLDER_PROVIDED;
+      if ( string.IsNullOrWhiteSpace( _Options.Folder ) ) {
+        Runner.writeError( "Folder may not be null or empty" );
+        return Runner.ERROR_NO_FOLDER_PROVIDED;
+      }
       foreach ( var directory in System.IO.Directory.GetDirectories( _Folder ) ) {
+        if ( _Options.Verbose ) {
+          Runner.writeLine( String.Format( "Working on directory {0}", directory ) );
+        }
         using ( var folderIterator = new FolderIterator( _Options, directory ) ) {
           var result = folderIterator.Execute();
           if ( result != Runner.SUCCESS_EXECUTION ) return result;
         }
       }
       foreach ( var file in System.IO.Directory.GetFiles( _Folder, "AssemblyInfo.cs" ) ) {
+        if ( !_Options.Quiet )
+          Runner.writeLine( String.Format( "Working on {0}", file ) );
         using ( var fileHandler = new FileHandler( _Options, file ) ) {
           var result = fileHandler.Execute();
           if ( result != Runner.SUCCESS_EXECUTION ) return result;
