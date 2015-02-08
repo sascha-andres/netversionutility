@@ -17,6 +17,8 @@ namespace Exortec.VersionNumber {
     public bool AssemblyFileVersion { get; set; }
     [Option( "assemblyversion", Required = false, HelpText = "Change assembly version", DefaultValue = true )]
     public bool AssemblyVersion { get; set; }
+    [Option( "wildcard", Required = false, DefaultValue = false, HelpText = "Use AssemblyVersion = X.Y.*" )]
+    public bool Wildcard { get; set; }
     [Option( 'f', "folder", Required = true, HelpText = "Look here (recursivly) for AssemblyInfo.cs" )]
     public string Folder { get; set; }
     [Option( 'v', "verbose", DefaultValue = false, HelpText = "Print out debug info" )]

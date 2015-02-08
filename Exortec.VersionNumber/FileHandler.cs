@@ -32,7 +32,14 @@ namespace Exortec.VersionNumber {
               if ( match.Success ) {
                 var major = match.Groups["major"].Value;
                 var minor = match.Groups["minor"].Value;
-                line = string.Format( @"[assembly: AssemblyVersion( ""{0}.{1}.{2}.{3}"" )]", major, minor, DateTime.Now.Year, string.Format( "{0}{1:00.}", DateTime.Now.Month, DateTime.Now.Day ) );
+                if ( _Options.Wildcard ) {
+                  if ( !_Options.Quiet && _Options.Verbose ) {
+                    Runner.writeLine( "Using wildcard version" );
+                  }
+                  line = string.Format( @"[assembly: AssemblyVersion( ""{0}.{1}.*"" )]", major, minor );
+                } else {
+                  line = string.Format( @"[assembly: AssemblyVersion( ""{0}.{1}.{2}.{3}"" )]", major, minor, DateTime.Now.Year, string.Format( "{0}{1:00.}", DateTime.Now.Month, DateTime.Now.Day ) );
+                }
                 if ( !_Options.Quiet )
                   Runner.writeLine( String.Format( "Setting: {0}", line ) );
                 contentNeedsToBeWritten = true;
