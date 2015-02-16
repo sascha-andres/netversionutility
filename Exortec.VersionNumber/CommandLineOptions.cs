@@ -21,6 +21,10 @@ namespace Exortec.VersionNumber {
     public bool Wildcard { get; set; }
     [Option( 'f', "folder", Required = true, HelpText = "Look here (recursivly) for AssemblyInfo.cs" )]
     public string Folder { get; set; }
+    [Option( "minor", Required = false, HelpText = "Set minor version to this number" )]
+    public int Minor { get; set; }
+    [Option( "major", Required = false, HelpText = "Set major version to this number" )]
+    public int Major { get; set; }
     [Option( 'v', "verbose", DefaultValue = false, HelpText = "Print out debug info" )]
     public bool Verbose { get; set; }
     [Option( 'q', "quiet", DefaultValue = false, HelpText = "Be extra quiet" )]
